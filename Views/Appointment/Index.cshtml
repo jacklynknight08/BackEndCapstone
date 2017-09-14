@@ -1,0 +1,59 @@
+@model IEnumerable<BackEndCapstone.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AppointmentDate)
+                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stylist)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stylist.FirstName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AppointmentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AppointmentId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
