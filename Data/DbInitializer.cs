@@ -19,7 +19,12 @@ namespace BackEndCapstone.Data
                 {
                     return;   // DB has been seeded
                 }
-                //Will Load Customers to Seed Databse
+
+                if (context.Appointment.Any())
+                {
+                    return;   // DB has been seeded
+                }
+                //Will Load Services to Seed Databse
                 var services = new Service[]
                 {
                     new Service { 
@@ -81,7 +86,37 @@ namespace BackEndCapstone.Data
                     context.Service.Add(s);
                 }
                 context.SaveChanges();
-            };
+
+                var stylists = new Stylist[]
+                {
+                    new Stylist { 
+                        FirstName = "Jackie",
+                        LastName = "Knight"
+                    },
+                    new Stylist { 
+                        FirstName = "Tamela",
+                        LastName = "Lerma"
+                    },
+                    new Stylist { 
+                        FirstName = "Kathy",
+                        LastName = "Weisensel"
+                    },
+                    new Stylist { 
+                        FirstName = "Madeline",
+                        LastName = "Power"
+                    },
+                    new Stylist { 
+                        FirstName = "Eliza",
+                        LastName = "Meeks"
+                    }
+                };
+                
+                foreach (Stylist t in stylists)
+                {
+                    context.Stylist.Add(t);
+                }
+                context.SaveChanges();
+            }
         }
     }
 }
