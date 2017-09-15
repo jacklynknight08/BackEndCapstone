@@ -16,6 +16,9 @@
                     Date
                 </th>
                 <th>
+                    Time
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Client)
                 </th>
                 <th>
@@ -29,6 +32,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.AppointmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Client.FirstName)
