@@ -13,32 +13,20 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.StartTime)
+                    Date
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.EndTime)
+                    @Html.DisplayNameFor(model => model.Client)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AppointmentDate)
+                    @Html.DisplayNameFor(model => model.Stylist)
                 </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stylist)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AppointmentDate)
             </td>

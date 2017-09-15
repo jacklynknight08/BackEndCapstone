@@ -6,6 +6,8 @@ namespace BackEndCapstone.Models.ViewModels
     {
         public IEnumerable<Client> Clients {get; set;}
 
+        public IEnumerable<Service> Services {get; set;}
+
         public IEnumerable<Stylist> Stylists {get; set;}
 
         public IEnumerable<Appointment> Appointment {get; set;}
