@@ -1,0 +1,30 @@
+@model IEnumerable<BackEndCapstone.Models.ViewModels.ClientAppointmentViewModel>
+
+@{
+    ViewData["Title"] = "AppointmentHistory";
+}
+
+<h2>Client Appointment History</h2>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Client History")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Appointment" asp-action="ClientHistoryViewModel" asp-route-id="@item.ClientId">@item.FirstName</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+</table>
