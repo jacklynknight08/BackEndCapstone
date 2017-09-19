@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
+using BackEndCapstone.Models.ViewModels;
 
 namespace BackEndCapstone.Controllers
 {
@@ -42,6 +43,12 @@ namespace BackEndCapstone.Controllers
 
             return View(client);
         }
+
+        //  public IActionResult AppointmentHistory()
+        // {
+        //     var appointments = _context.Client.Include(a => a.Appointments);
+        //     return View(appointments.ToList());
+        // }
 
         // GET: Client/Create
         public IActionResult Create()

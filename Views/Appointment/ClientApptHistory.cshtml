@@ -10,21 +10,34 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayName("Client History")
+                    @Html.DisplayName("Client")
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Htm.DisplayNameFor(model => model.AppointmentDate)
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stylist)
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        <a asp-controller="Appointment" asp-action="ClientHistoryViewModel" asp-route-id="@item.ClientId">@item.FirstName</a>
-                    </td>
-                </tr>
+            <td>
+                <a asp-controller="Client" asp-action="ClientAppointment" asp-route-id="@item.ClientId">@item.FirstName</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stylist.FirstName)
+            </td>
             }
         </tbody>
 </table>

@@ -47,37 +47,6 @@ namespace BackEndCapstone.Controllers
             return View(appointment);
         }
 
-        // GET: Appointment/AppointmentHistory/5
-        public async Task<IActionResult> AppointmentHistory(string id)
-        {
-            //var user = await GetCurrentUserAsync();
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var appts = await _context.Appointment
-                .Where(c => c.Client != null).ToListAsync();
-            if (appts == null)
-            {
-                return NotFound();
-            }
-
-            return View(appts);
-        }
-
-         public IActionResult ClientHistoryViewModel(int? id)
-        {
-            ClientAppointmentViewModel clientApptViewModel = new ClientAppointmentViewModel(id, _context);
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            return View(clientApptViewModel);
-        }
-
         // GET: Appointment/Create
         public IActionResult Create()
         {

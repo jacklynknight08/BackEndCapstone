@@ -12,12 +12,19 @@ namespace BackEndCapstone.Models.ViewModels
 
     public class ClientAppointmentViewModel
     {
+        // Create an instance of a client
+        public Client Client {get; set;}
+
+        //Create an instance of an appointment
+        public Appointment Appointment {get; set;}
+
         // Give a list of clients
-        public IEnumerable<Client> Clients {get; set;}
+        public List<Client> Clients {get; set;}
 
         // Give a list of appointments
-        public IEnumerable<Appointment> Appointments {get; set;}
+        public List<Appointment> Appointments {get; set;}
 
+        // Constructor method to create object instance of a list of Computers and Training Programs
         // Retrieve appointments from appointment table where id matches
         // Join client and appointment table to retrieve clients for that appointment
         // Need to pass in ApplicationDBContext
