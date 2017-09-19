@@ -14,10 +14,10 @@ namespace BackEndCapstone.Controllers
 {
     public class AppointmentController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AppointmentController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AppointmentController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;

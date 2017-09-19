@@ -13,10 +13,10 @@ namespace BackEndCapstone.Controllers
 {
     public class StylistController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public StylistController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public StylistController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;    
             _userManager = userManager;
