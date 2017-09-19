@@ -8,6 +8,9 @@ namespace BackEndCapstone.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        // Will use this to store drop down list
+        public string Name {get; set;}
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
