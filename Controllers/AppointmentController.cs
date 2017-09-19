@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using BackEndCapstone.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace BackEndCapstone.Controllers
 {
     public class AppointmentController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AppointmentController(ApplicationDbContext context)
+        public AppointmentController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;
         }
 
         // GET: Appointment
