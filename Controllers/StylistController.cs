@@ -7,17 +7,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BackEndCapstone.Controllers
 {
     public class StylistController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public StylistController(ApplicationDbContext context)
+        public StylistController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;    
+            _userManager = userManager;
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Stylist
         public async Task<IActionResult> Index()

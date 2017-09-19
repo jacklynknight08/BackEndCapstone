@@ -8,17 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using BackEndCapstone.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace BackEndCapstone.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClientController(ApplicationDbContext context)
+        public ClientController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;    
         }
+        
+        private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Client
         public async Task<IActionResult> Index()

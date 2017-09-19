@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using BackEndCapstone.Models;
 using BackEndCapstone.Models.AccountViewModels;
 using BackEndCapstone.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BackEndCapstone.Controllers
 {
@@ -19,6 +20,8 @@ namespace BackEndCapstone.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserStore<ApplicationUser> _userStore;
+        private readonly Data.ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
@@ -31,7 +34,8 @@ namespace BackEndCapstone.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            Data.ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +43,8 @@ namespace BackEndCapstone.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _context = context;
+            _userStore = new UserStore<ApplicationUser>(context);
         }
 
         //
@@ -92,7 +98,7 @@ namespace BackEndCapstone.Controllers
             return View(model);
         }
 
-        //
+        
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
@@ -102,7 +108,25 @@ namespace BackEndCapstone.Controllers
             return View();
         }
 
-        //
+        // GET: /Account/Register
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegisterAsAdminOrClient(string id, string returnUrl = null)
+        {
+            if( id == "Admin")
+            {
+                return View("RegisterAdmin");
+            }
+
+            if( id == "Client")
+            {
+                return View("RegisterClient");
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
