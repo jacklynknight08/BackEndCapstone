@@ -9,6 +9,7 @@ using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using BackEndCapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEndCapstone.Controllers
 {
@@ -26,12 +27,14 @@ namespace BackEndCapstone.Controllers
         private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Client
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Client.ToListAsync());
         }
 
         // GET: Client/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,12 +51,6 @@ namespace BackEndCapstone.Controllers
 
             return View(client);
         }
-
-        //  public IActionResult AppointmentHistory()
-        // {
-        //     var appointments = _context.Client.Include(a => a.Appointments);
-        //     return View(appointments.ToList());
-        // }
 
         // GET: Client/Create
         public IActionResult Create()
