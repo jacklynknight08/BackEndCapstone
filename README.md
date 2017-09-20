@@ -4,6 +4,8 @@ TRMZ is a scheduling system that enables an owner of a salon to manage appointme
 
 ## Technical Requirements
 Visual Studio Code [https://code.visualstudio.com/]
+SQLite [https://www.sqlite.org/]
+.NET CORE [https://www.microsoft.com/net/core/platform]
 DB Browser for SQLite [http://sqlitebrowser.org/]
 
 ## Installation
