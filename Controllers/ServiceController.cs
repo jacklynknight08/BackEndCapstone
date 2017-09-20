@@ -27,6 +27,7 @@ namespace BackEndCapstone.Controllers
         private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Service
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Service.ToListAsync());
