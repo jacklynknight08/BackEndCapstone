@@ -54,22 +54,22 @@ namespace BackEndCapstone.Data
                     await context.SaveChangesAsync();
                 }
 
-                if (!context.ApplicationUser.Any(u => u.FirstName == "test"))
+                if (!context.ApplicationUser.Any(u => u.FirstName == "client"))
                 {
                     //  This method will be called after migrating to the latest version.
                     ApplicationUser user = new ApplicationUser {
-                        FirstName = "test",
-                        LastName = "test",
-                        UserName = "test@test.com",
-                        NormalizedUserName = "TEST@TEST.COM",
-                        Email = "test@test.com",
-                        NormalizedEmail = "TEST@TEST.COM",
+                        FirstName = "client",
+                        LastName = "client",
+                        UserName = "client@client.com",
+                        NormalizedUserName = "CLIENT@CLIENT.COM",
+                        Email = "client@client.com",
+                        NormalizedEmail = "CLIENT@CLIENT.COM",
                         EmailConfirmed = true,
                         LockoutEnabled = false,
                         SecurityStamp = Guid.NewGuid().ToString("D")
                     };
                     var passwordHash = new PasswordHasher<ApplicationUser>();
-                    user.PasswordHash = passwordHash.HashPassword(user, "test");
+                    user.PasswordHash = passwordHash.HashPassword(user, "client");
                     await userStore.CreateAsync(user);
                     await userStore.AddToRoleAsync(user, "Client");
                     await context.SaveChangesAsync();
