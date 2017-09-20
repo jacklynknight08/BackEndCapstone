@@ -16,6 +16,8 @@ namespace BackEndCapstone.Data
 
             using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
+
+                // Seed database with user roles such as Admin and Client
                 var roleStore = new RoleStore<IdentityRole>(context);
                 var userStore = new UserStore<ApplicationUser>(context);
 

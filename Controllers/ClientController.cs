@@ -9,9 +9,11 @@ using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using BackEndCapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEndCapstone.Controllers
 {
+    [Authorize]
     public class ClientController : Controller
     {
         private readonly Data.ApplicationDbContext _context;
@@ -48,12 +50,6 @@ namespace BackEndCapstone.Controllers
 
             return View(client);
         }
-
-        //  public IActionResult AppointmentHistory()
-        // {
-        //     var appointments = _context.Client.Include(a => a.Appointments);
-        //     return View(appointments.ToList());
-        // }
 
         // GET: Client/Create
         public IActionResult Create()

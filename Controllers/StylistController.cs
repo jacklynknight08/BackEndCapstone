@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEndCapstone.Controllers
 {
+    [Authorize]
     public class StylistController : Controller
     {
         private readonly Data.ApplicationDbContext _context;
