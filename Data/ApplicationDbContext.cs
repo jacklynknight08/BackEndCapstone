@@ -31,5 +31,7 @@ namespace BackEndCapstone.Data
         public DbSet<BackEndCapstone.Models.Service> Service { get; set; }
 
         public DbSet<BackEndCapstone.Models.Stylist> Stylist { get; set; }
+        
+        public DbSet<BackEndCapstone.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
