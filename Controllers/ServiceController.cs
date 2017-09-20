@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BackEndCapstone.Controllers
 {
+    [Authorize]
     public class ServiceController : Controller
     {
         private readonly Data.ApplicationDbContext _context;
@@ -26,14 +27,12 @@ namespace BackEndCapstone.Controllers
         private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Service
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Service.ToListAsync());
         }
 
         // GET: Service/Details/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

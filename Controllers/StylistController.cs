@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BackEndCapstone.Controllers
 {
+    [Authorize]
     public class StylistController : Controller
     {
         private readonly Data.ApplicationDbContext _context;
@@ -26,14 +27,12 @@ namespace BackEndCapstone.Controllers
         private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Stylist
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Stylist.ToListAsync());
         }
 
         // GET: Stylist/Details/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

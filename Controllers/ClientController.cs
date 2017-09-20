@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BackEndCapstone.Controllers
 {
+    [Authorize]
     public class ClientController : Controller
     {
         private readonly Data.ApplicationDbContext _context;
@@ -27,14 +28,12 @@ namespace BackEndCapstone.Controllers
         private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Client
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Client.ToListAsync());
         }
 
         // GET: Client/Details/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
