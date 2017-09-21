@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
-using BackEndCapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace BackEndCapstone.Controllers
@@ -23,14 +22,24 @@ namespace BackEndCapstone.Controllers
             _userManager = userManager;
         }
 
-        // GET: Appointment
-        // public async Task<IActionResult> Index()
-        // {                                                  
-        //     // Create new instance of view model
-        //     AppointmentListViewModel model = new AppointmentListViewModel();
+        //GET: Appointment
+        public ActionResult Index()
+        {            
+            var schedAppt = (from apt in _context.Appointment
+                            join c in _context.Client
+                            on apt.ClientId equals c.ClientId
+                            join s in _context.Stylist
+                            on apt.StylistId equals s.StylistId
+                            select new ScheduledAppointment
+                            {
+                                Appointment = apt,
+                                ClientName = c.FirstName + " " + c.LastName,
+                                StylistName = s.FirstName,
+                                ScheduledServices = _context.AppointmentService.Include("Service").Where(a => a.AppointmentId == apt.AppointmentId).ToList()
+                            }).ToList();
 
-        //     return View(model);
-        // }
+            return View(schedAppt);      
+        }
 
         // GET: Appointment/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -43,6 +52,7 @@ namespace BackEndCapstone.Controllers
             var appointment = await _context.Appointment
                 .Include(a => a.Client)
                 .Include(a => a.Stylist)
+                .Include(a => a.AppointmentServices)
                 .SingleOrDefaultAsync(m => m.AppointmentId == id);
 
             if (appointment == null)
@@ -58,6 +68,7 @@ namespace BackEndCapstone.Controllers
         {
             ViewData["ClientId"] = new SelectList(_context.Set<Client>(), "ClientId", "FirstName");
             ViewData["StylistId"] = new SelectList(_context.Set<Stylist>(), "StylistId", "FirstName");
+            ViewData["ServiceId"] = new SelectList(_context.Set<Service>(), "ServiceId", "Name");
             return View();
         }
 
