@@ -75,7 +75,10 @@ namespace BackEndCapstone.Data
                     await context.SaveChangesAsync();
                     }
 
-                //Will Load Services to Seed Databse
+                //Will Load Services to Seed Database
+                if(!context.Service.Any())
+                {
+
                 var services = new Service[]
                 {
                     new Service { 
@@ -137,8 +140,12 @@ namespace BackEndCapstone.Data
                     context.Service.Add(s);
                 }
                 context.SaveChanges();
+                }
 
                 // Load stylists to seed database
+                if(!context.Stylist.Any())
+                {
+
                 var stylists = new Stylist[]
                 {
                     new Stylist { 
@@ -168,6 +175,7 @@ namespace BackEndCapstone.Data
                     context.Stylist.Add(t);
                 }
                 context.SaveChanges();
+                }
             }
         }
     }
