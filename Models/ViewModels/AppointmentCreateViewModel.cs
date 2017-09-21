@@ -10,9 +10,12 @@ namespace BackEndCapstone.Models.ViewModels
     {
         public Appointment Appointment { get; set; }
 
+        public Service Service { get; set; }
+
+
         // Property to hold all services for selection on edit form
         [Display(Name="Services")]
-        public MultiSelectList Services { get; private set; }
+        public List<SelectListItem> Services { get; private set; }
 
         [Display(Name="Clients")]
         public List<SelectListItem> Clients { get; private set; }
@@ -21,7 +24,7 @@ namespace BackEndCapstone.Models.ViewModels
         public List<SelectListItem> Stylists { get; private set; }
 
         // This will accept the selected services on form POST
-        public List<int> SelectedServices { get; set; }
+        public int SelectedServices { get; set; }
 
         public AppointmentCreateViewModel() {}
         public AppointmentCreateViewModel(ApplicationDbContext context)
@@ -56,10 +59,32 @@ namespace BackEndCapstone.Models.ViewModels
                 Value = "0"
             });
 
-            // Build a list of services
-            List<Service> services = context.Service
+            // Select list for stylists
+            this.Services = context.Service
                 .OrderBy(s => s.Name)
-                .ToList();
+                .AsEnumerable()
+                .Select(s => new SelectListItem { 
+                    Text = s.Name,
+                    Value = s.ServiceId.ToString()
+                }).ToList();
+
+            // Add a prompt so that the <select> element isn't blank for a new client
+            this.Services.Insert(0, new SelectListItem { 
+                Text = "Choose service...",
+                Value = "0"
+            });
+
+            // Build a list of services
+            // List<Service> services = context.Service
+            //     .OrderBy(s => s.Name)
+            //     .ToList();
+
+             // Build a list of service ids to pre-select in the multiselect element
+            // var goingToList = (
+            //   from s in context.Service
+            //   join a in context.AppointmentService on s.ServiceId equals a.ServiceId
+            //   select s.ServiceId
+            // ).ToList();
 
             /*
                 This MultiSelectList constructor takes 4 arguments. Here's what they all mean.
@@ -68,6 +93,7 @@ namespace BackEndCapstone.Models.ViewModels
                     3. The column to use for display text
                     4. A list of integers for ones to be pre-selected
              */
-            this.Services = new MultiSelectList(services, "ServiceId", "Title", SelectedServices);
+            // this.Services = new MultiSelectList(services, "ServiceId", "Title");
+        }
     }
 }

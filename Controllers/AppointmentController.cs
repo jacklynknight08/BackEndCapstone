@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using Microsoft.AspNetCore.Identity;
+using BackEndCapstone.Models.ViewModels;
 
 namespace BackEndCapstone.Controllers
 {
@@ -69,10 +70,13 @@ namespace BackEndCapstone.Controllers
         // GET: Appointment/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "FirstName");
-            ViewData["StylistId"] = new SelectList(_context.Stylist, "StylistId", "FirstName");
-            // ViewData["ServiceId"] = new SelectList(_context.Set<Service>(), "ServiceId", "Name");
-            return View();
+            AppointmentCreateViewModel model = new AppointmentCreateViewModel(_context);
+
+
+            // ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "FirstName");
+            // ViewData["StylistId"] = new SelectList(_context.Stylist, "StylistId", "FirstName");
+            // ViewData["ServiceId"] = new SelectList(_context.Service, "ServiceId", "Name");
+            return View(model);
         }
 
         // POST: Appointment/Create
