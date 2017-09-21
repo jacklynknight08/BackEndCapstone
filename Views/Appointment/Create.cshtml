@@ -35,13 +35,13 @@
                 )
         </div>
         <div class="form-group">
-            <label asp-for="Service.ServiceId" class="col-md-2 control-label">Service</label>
+            <label asp-for="Appointment.ServiceId" class="col-md-2 control-label">Service</label>
             @Html.DropDownList(
-                    "Service.ServiceId",
+                    "Appointment.ServiceId",
                     @Model.Services,
                     new
                     {
-                        @name = "Service.ServiceId"
+                        @name = "Appointment.ServiceId"
                     }
                 )
         </div>

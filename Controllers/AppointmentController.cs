@@ -16,32 +16,27 @@ namespace BackEndCapstone.Controllers
     {
         private readonly Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private List<ScheduledAppointment> scheduledAppointment()
-        {
-            return(from apt in _context.Appointment
-                            join c in _context.Client
-                            on apt.ClientId equals c.ClientId
-                            join s in _context.Stylist
-                            on apt.StylistId equals s.StylistId
-                            select new ScheduledAppointment
-                            {
-                                Appointment = apt,
-                                ClientName = c.FirstName + " " + c.LastName,
-                                StylistName = s.FirstName,
-                                ScheduledServices = _context.AppointmentService.Include("Service").Where(a => a.AppointmentId == apt.AppointmentId).ToList()
-                            }).ToList();
-        }
+        private List<Appointment> scheduledAppointment;
+        
 
         public AppointmentController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
+            scheduledAppointment = _context.Appointment.Include(c => c.Client)
+                                       .Include(s => s.Stylist)
+                                       .Include(d => d.Service)
+                                       .ToList();
         }
 
         //GET: Appointment
         public ActionResult Index()
         {            
-            var schedAppt = scheduledAppointment();
+            
+            var schedAppt = _context.Appointment.Include(c => c.Client)
+                                       .Include(s => s.Stylist)
+                                       .Include(d => d.Service)
+                                       .ToList();
 
             return View(schedAppt);      
         }
@@ -49,7 +44,7 @@ namespace BackEndCapstone.Controllers
         // GET: Appointment/Details/5
         public IActionResult Details(int? id)
         {
-            var schedAppt = scheduledAppointment();
+            var schedAppt = scheduledAppointment;
 
             if (id == null)
             {
@@ -57,7 +52,7 @@ namespace BackEndCapstone.Controllers
             }
 
             var appointment = schedAppt
-                              .SingleOrDefault(s => s.Appointment.AppointmentId == id);
+                              .SingleOrDefault(s => s.AppointmentId == id);
 
             if (appointment == null)
             {
@@ -84,13 +79,8 @@ namespace BackEndCapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,StylistId,ClientId,StartTime,EndTime,AppointmentDate")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentId,StylistId,ClientId,StartTime,EndTime,AppointmentDate,ServiceId")] Appointment appointment)
         {
-            var schedAppt = scheduledAppointment();
-
-            var createAppt = schedAppt
-                              .SingleOrDefault(s => s.Appointment == appointment);
-
             if (ModelState.IsValid)
             {
                 _context.Add(appointment);
