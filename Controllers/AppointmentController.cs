@@ -24,13 +24,13 @@ namespace BackEndCapstone.Controllers
         }
 
         // GET: Appointment
-        public async Task<IActionResult> Index()
-        {                                                  
-            // Create new instance of view model
-            AppointmentListViewModel model = new AppointmentListViewModel();
+        // public async Task<IActionResult> Index()
+        // {                                                  
+        //     // Create new instance of view model
+        //     AppointmentListViewModel model = new AppointmentListViewModel();
 
-            return View(model);
-        }
+        //     return View(model);
+        // }
 
         // GET: Appointment/Details/5
         public async Task<IActionResult> Details(int? id)
