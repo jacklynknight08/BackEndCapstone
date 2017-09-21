@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using Microsoft.AspNetCore.Identity;
+using BackEndCapstone.Models.ViewModels;
 
 namespace BackEndCapstone.Controllers
 {
@@ -27,8 +28,13 @@ namespace BackEndCapstone.Controllers
         // GET: AppointmentService
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.AppointmentService.Include(a => a.Appointment).Include(a => a.Service);
-            return View(await applicationDbContext.ToListAsync());
+            AppointmentServiceViewModel model = new AppointmentServiceViewModel();
+
+            model.Services = await _context.Service
+            .Include(s => s.AppointmentServices)
+            .ToListAsync();
+
+            return View(model);
         }
 
         // GET: AppointmentService/Details/5

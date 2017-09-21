@@ -24,6 +24,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Stylist)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Service)
+                </th>
             <th></th>
         </tr>
     </thead>
@@ -41,6 +44,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Stylist.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |

@@ -10,12 +10,14 @@ using Microsoft.Extensions.Options;
 using BackEndCapstone.Models;
 using BackEndCapstone.Models.ManageViewModels;
 using BackEndCapstone.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackEndCapstone.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private readonly Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly string _externalCookieScheme;
@@ -29,8 +31,10 @@ namespace BackEndCapstone.Controllers
           IOptions<IdentityCookieOptions> identityCookieOptions,
           IEmailSender emailSender,
           ISmsSender smsSender,
-          ILoggerFactory loggerFactory)
+          ILoggerFactory loggerFactory,
+          Data.ApplicationDbContext context)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
@@ -39,7 +43,8 @@ namespace BackEndCapstone.Controllers
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
-        //
+        private Task<ApplicationUser> GetCurrentUserAsyncy() => _userManager.GetUserAsync(HttpContext.User);
+
         // GET: /Manage/Index
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
@@ -58,13 +63,17 @@ namespace BackEndCapstone.Controllers
             {
                 return View("Error");
             }
-            var model = new IndexViewModel
+
+            // Set AppUser to get access to user information
+            var model = new IndexViewModel()
             {
+                AppUser = user,
                 HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+                
             };
             return View(model);
         }
@@ -342,6 +351,83 @@ namespace BackEndCapstone.Controllers
         }
 
         #region Helpers
+
+        // GET: ApplicationUser Profile/Edit/5
+        public async Task<IActionResult> EditProfile(string id)
+        {
+            var user = await GetCurrentUserAsync();
+
+            if(user == null)
+            {
+                return View("Error");
+            }
+
+            IndexViewModel User = new IndexViewModel()
+            {
+                AppUser = user
+            };
+
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            return View(User);
+        }
+
+        // POST: Update ApplicationUser Profile/Edit/5
+        // Pass in UserId to update to database
+        // Pass in an instance of the view model to set new values on the form
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(string id,  IndexViewModel indexVM)
+        {
+            if (indexVM == null)
+            {
+                throw new ArgumentNullException(nameof(indexVM));
+            }
+
+            var user = await GetCurrentUserAsync();
+            user.FirstName = indexVM.AppUser.FirstName;
+            user.LastName = indexVM.AppUser.LastName;
+            user.Email = indexVM.AppUser.Email;
+            user.PhoneNumber = indexVM.AppUser.PhoneNumber;
+
+
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ApplicationUserExists(indexVM.AppUser.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            return View("Index");
+        }
+
+        // See if UserId exists in the database
+        private bool ApplicationUserExists(string id)
+        {
+            return _context.ApplicationUser.Any(e => e.Id == id);
+        }
+
 
         private void AddErrors(IdentityResult result)
         {

@@ -24,11 +24,13 @@ namespace BackEndCapstone.Controllers
         }
 
         // GET: Appointment
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Appointment.Include(a => a.Client).Include(a => a.Stylist);
-            return View(await applicationDbContext.ToListAsync());
-        }
+        // public async Task<IActionResult> Index()
+        // {                                                  
+        //     // Create new instance of view model
+        //     AppointmentListViewModel model = new AppointmentListViewModel();
+
+        //     return View(model);
+        // }
 
         // GET: Appointment/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -42,6 +44,7 @@ namespace BackEndCapstone.Controllers
                 .Include(a => a.Client)
                 .Include(a => a.Stylist)
                 .SingleOrDefaultAsync(m => m.AppointmentId == id);
+
             if (appointment == null)
             {
                 return NotFound();
