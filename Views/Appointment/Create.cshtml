@@ -1,4 +1,4 @@
-@model BackEndCapstone.Models.Appointment
+@model BackEndCapstone.Models.ViewModels.AppointmentCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,37 +12,54 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="StylistId" class="col-md-2 control-label"></label>
+            <label asp-for="Appointment.StylistId" class="col-md-2 control-label">Stylist</label>
             <div class="col-md-10">
-                <select asp-for="StylistId" class ="form-control" asp-items="ViewBag.StylistId"></select>
+                @Html.DropDownList(
+                    "Appointment.StylistId",
+                    @Model.Stylists,
+                    new
+                    {
+                        @name = "Appointment.StylistId"
+                    }
+                )
+        </div>
+        <div class="form-group">
+            <label asp-for="Appointment.ClientId" class="col-md-2 control-label">Client</label>
+            @Html.DropDownList(
+                    "Appointment.ClientId",
+                    @Model.Clients,
+                    new
+                    {
+                        @name = "Appointment.ClientId"
+                    }
+                )
+        </div>
+        <div class="form-group">
+            <label asp-for="Service.ServiceId" class="col-md-2 control-label">Service</label>
+            @Html.DropDownList(
+                    "Service.ServiceId",
+                    @Model.Services,
+                    new
+                    {
+                        @name = "Service.ServiceId"
+                    }
+                )
+        </div>
+        <div class="form-group">
+            <label asp-for="Appointment.StartTime" class="col-md-2 control-label">Start Time</label>
+            <div class="col-md-10">
+                <input asp-for="Appointment.StartTime" class="form-control" />
+                <span asp-validation-for="Appointment.StartTime" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="ClientId" class="col-md-2 control-label"></label>
+            <label asp-for="Appointment.AppointmentDate" class="col-md-2 control-label">Date</label>
             <div class="col-md-10">
-                <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientId"></select>
+                <input asp-for="Appointment.AppointmentDate" class="form-control" />
+                <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="ServiceId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="ServiceId" class ="form-control" asp-items="ViewBag.ServiceId"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="StartTime" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="StartTime" class="form-control" />
-                <span asp-validation-for="StartTime" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="AppointmentDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="AppointmentDate" class="form-control" />
-                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
-            </div>
-        </div>
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

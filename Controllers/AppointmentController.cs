@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BackEndCapstone.Data;
 using BackEndCapstone.Models;
 using Microsoft.AspNetCore.Identity;
+using BackEndCapstone.Models.ViewModels;
 
 namespace BackEndCapstone.Controllers
 {
@@ -15,17 +16,9 @@ namespace BackEndCapstone.Controllers
     {
         private readonly Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public AppointmentController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        private List<ScheduledAppointment> scheduledAppointment()
         {
-            _context = context;
-            _userManager = userManager;
-        }
-
-        //GET: Appointment
-        public ActionResult Index()
-        {            
-            var schedAppt = (from apt in _context.Appointment
+            return(from apt in _context.Appointment
                             join c in _context.Client
                             on apt.ClientId equals c.ClientId
                             join s in _context.Stylist
@@ -37,23 +30,34 @@ namespace BackEndCapstone.Controllers
                                 StylistName = s.FirstName,
                                 ScheduledServices = _context.AppointmentService.Include("Service").Where(a => a.AppointmentId == apt.AppointmentId).ToList()
                             }).ToList();
+        }
+
+        public AppointmentController(Data.ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
+
+        //GET: Appointment
+        public ActionResult Index()
+        {            
+            var schedAppt = scheduledAppointment();
 
             return View(schedAppt);      
         }
 
         // GET: Appointment/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
+            var schedAppt = scheduledAppointment();
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var appointment = await _context.Appointment
-                .Include(a => a.Client)
-                .Include(a => a.Stylist)
-                .Include(a => a.AppointmentServices)
-                .SingleOrDefaultAsync(m => m.AppointmentId == id);
+            var appointment = schedAppt
+                              .SingleOrDefault(s => s.Appointment.AppointmentId == id);
 
             if (appointment == null)
             {
@@ -66,10 +70,13 @@ namespace BackEndCapstone.Controllers
         // GET: Appointment/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Set<Client>(), "ClientId", "FirstName");
-            ViewData["StylistId"] = new SelectList(_context.Set<Stylist>(), "StylistId", "FirstName");
-            ViewData["ServiceId"] = new SelectList(_context.Set<Service>(), "ServiceId", "Name");
-            return View();
+            AppointmentCreateViewModel model = new AppointmentCreateViewModel(_context);
+
+
+            // ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "FirstName");
+            // ViewData["StylistId"] = new SelectList(_context.Stylist, "StylistId", "FirstName");
+            // ViewData["ServiceId"] = new SelectList(_context.Service, "ServiceId", "Name");
+            return View(model);
         }
 
         // POST: Appointment/Create
@@ -79,14 +86,19 @@ namespace BackEndCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentId,StylistId,ClientId,StartTime,EndTime,AppointmentDate")] Appointment appointment)
         {
+            var schedAppt = scheduledAppointment();
+
+            var createAppt = schedAppt
+                              .SingleOrDefault(s => s.Appointment == appointment);
+
             if (ModelState.IsValid)
             {
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ClientId"] = new SelectList(_context.Set<Client>(), "ClientId", "FirstName", appointment.ClientId);
-            ViewData["StylistId"] = new SelectList(_context.Set<Stylist>(), "StylistId", "FirstName", appointment.StylistId);
+            ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "FirstName", appointment.ClientId);
+            ViewData["StylistId"] = new SelectList(_context.Stylist, "StylistId", "FirstName", appointment.StylistId);
             return View(appointment);
         }
 
