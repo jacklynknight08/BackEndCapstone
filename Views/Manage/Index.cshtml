@@ -1,6 +1,6 @@
 ﻿@model IndexViewModel
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData["Title"] = "Profile";
 }
 
 <h2>@ViewData["Title"].</h2>
@@ -10,9 +10,14 @@
     <hr />
     <dl class="dl-horizontal">
 
-        <dt>Name: </dt>
+        <dt>First Name: </dt>
         <dd>
-            @Model.AppUser.FirstName @Model.AppUser.LastName
+            @Model.AppUser.FirstName
+        </dd>
+
+        <dt>Last Name: </dt>
+        <dd>
+            @Model.AppUser.LastName
         </dd>
 
         <dt>Phone Number: </dt>
