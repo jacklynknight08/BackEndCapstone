@@ -6,9 +6,8 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Client</h4>
+<h3>Are you sure you want to delete this client?</h3>
+<div class="bk-font-black">
     <hr />
     <dl class="dl-horizontal">
         <input type="hidden" asp-for="ClientId" />
@@ -40,8 +39,8 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Delete" class="btn btn-default reg-btn" /> |
+            <a asp-action="Index" class="btn btn-default reg-btn">Back to List</a>
         </div>
     </form>
 </div>

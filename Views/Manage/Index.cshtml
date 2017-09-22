@@ -10,29 +10,29 @@
     <hr />
     <dl class="dl-horizontal">
 
-        <dt>First Name: </dt>
-        <dd>
+        <dt class="bk-font">First Name: </dt>
+        <dd class="bk-font">
             @Model.AppUser.FirstName
         </dd>
 
-        <dt>Last Name: </dt>
-        <dd>
+        <dt class="bk-font">Last Name: </dt>
+        <dd class="bk-font">
             @Model.AppUser.LastName
         </dd>
 
-        <dt>Phone Number: </dt>
-        <dd>
+        <dt class="bk-font">Phone Number: </dt>
+        <dd class="bk-font">
             @Model.AppUser.PhoneNumber
         </dd>
 
-        <dt>Email: </dt>
-        <dd>
+        <dt class="bk-font">Email: </dt>
+        <dd class="bk-font">
             @Model.AppUser.Email
         </dd>
     </dl>
     <div>
-        <a asp-controller="Appointments" asp-action="AppointmentHistory" asp-route-id="@Model.AppUser.Id">Appointment History</a>
+        <!-- <a asp-controller="Appointments" asp-action="AppointmentHistory" asp-route-id="@Model.AppUser.Id">Appointment History</a> -->
     </div>
     <br />
-    <a asp-action="EditProfile" asp-route-id="@Model.AppUser.Id" class="btn btn-default">Edit Profile</a>
+    <a asp-action="EditProfile" asp-route-id="@Model.AppUser.Id" class="btn btn-default reg-btn">Edit Profile</a>
 </div>
