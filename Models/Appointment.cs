@@ -25,6 +25,9 @@ namespace BackEndCapstone.Models
         [Required]
         public int ClientId {get; set;}
 
+        [Required]
+        public int ServiceId {get; set;}
+
         // Set DataFormatString to short Time for hour and minute
         [Required]
         [DataType(DataType.DateTime)]
@@ -51,7 +54,7 @@ namespace BackEndCapstone.Models
         public virtual Client Client {get; set;}
 
         // Connecting appointment to appointmentservices by using a collection
-        public ICollection<AppointmentService> AppointmentServices {get; set;}
+        public virtual Service Service {get; set;}
 
     }
 }

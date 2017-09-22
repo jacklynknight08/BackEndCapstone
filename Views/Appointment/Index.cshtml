@@ -1,4 +1,4 @@
-@model IEnumerable<BackEndCapstone.Models.ScheduledAppointment>
+@model IEnumerable<BackEndCapstone.Models.Appointment>
 
 @{
     ViewData["Title"] = "Index";
@@ -34,28 +34,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Appointment.AppointmentDate)
+                @Html.DisplayFor(modelItem => item.AppointmentDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Appointment.StartTime)
+                @Html.DisplayFor(modelItem => item.StartTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientName)
+                @Html.DisplayFor(modelItem => item.Client.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StylistName)
+                @Html.DisplayFor(modelItem => item.Stylist.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service.Name)
             </td>
             
-            @foreach(var s in item.ScheduledServices)
-            {
             <td>
-                @Html.DisplayFor(modelItem => s.Service.Name)
-            </td>
-            }
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Appointment.AppointmentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Appointment.AppointmentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Appointment.AppointmentId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AppointmentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AppointmentId">Delete</a>
             </td>
         </tr>
 }

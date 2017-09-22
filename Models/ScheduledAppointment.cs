@@ -8,7 +8,7 @@ namespace BackEndCapstone.Models
 
         public string StylistName {get; set;}
 
-        public List<AppointmentService> ScheduledServices {get; set;}
+        public string ServiceName {get; set;}
 
         public Appointment Appointment {get; set;}
 
