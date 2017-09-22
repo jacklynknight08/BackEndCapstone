@@ -6,8 +6,8 @@
 
 <h2>Details</h2>
 
-<div>
     <h4>Client</h4>
+<div class="bk-font-black">
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -36,11 +36,8 @@
         </dd>
     </dl>
 </div>
-<div>
-     <a asp-controller="Client" asp-action="AppointmentHistory">Appointment History</a>
-</div>
 <br>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ClientId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.ClientId" class="btn btn-default reg-btn">Edit</a> |
+    <a asp-action="Index" class="btn btn-default reg-btn">Back to List</a>
 </div>
